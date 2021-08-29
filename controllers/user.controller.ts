@@ -19,21 +19,29 @@ export const get_all_users = (ctx: RouterContext) => {
 };
 
 export const register_user = async ({ request, response }: RouterContext) => {
-  const user: UserType = await request.body().value;
-
-  // Hash password
-  const hash = await bcrypt.hash(user.password);
-
   try {
-    const val = await User.create({ ...user, password: hash });
+    const json: UserType = await request.body().value;
+    json.username = json.username.trim();
+    json.password = json.password.trim();
+
+    // Check if username is unique
+    const user: User[] = await User.where({
+      username: json.username,
+    }).all();
+
+    if (user.length >= 0) {
+      throw { error: "Username Already taken" };
+    }
+
+    // Hash password
+    const hash = await bcrypt.hash(json.password);
+    const val = await User.create({ ...json, password: hash });
 
     // return session and token
     response.body = await generateToken(val);
   } catch (error) {
     console.log(error);
-    response.body = {
-      error,
-    };
+    response.body = error;
 
     response.status = 500;
   }
