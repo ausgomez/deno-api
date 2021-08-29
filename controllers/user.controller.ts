@@ -1,11 +1,12 @@
 import { User } from "../models/User.ts";
 import { UserType } from "../types.ts";
 import { RouterContext } from "https://deno.land/x/oak/mod.ts";
+import * as bcrypt from "https://deno.land/x/bcrypt/mod.ts";
 import {
   create,
   getNumericDate,
   verify,
-} from "https://deno.land/x/djwt@v2.3/mod.ts";
+} from "https://deno.land/x/djwt/mod.ts";
 
 const key = await crypto.subtle.generateKey(
   { name: "HMAC", hash: "SHA-512" },
@@ -20,8 +21,11 @@ export const get_all_users = (ctx: RouterContext) => {
 export const register_user = async ({ request, response }: RouterContext) => {
   const user: UserType = await request.body().value;
 
+  // Hash password
+  const hash = await bcrypt.hash(user.password);
+
   try {
-    const val = await User.create({ ...user });
+    const val = await User.create({ ...user, password: hash });
 
     // return session and token
     response.body = await generateToken(val);
@@ -36,19 +40,24 @@ export const register_user = async ({ request, response }: RouterContext) => {
 };
 
 export const login_user = async ({ request, response }: RouterContext) => {
-  const user: UserType = await request.body().value;
+  const json: UserType = await request.body().value;
 
   try {
     // Find username on database
-    // Check if user has that password
-    const val = await User.where({
-      username: user.username,
-      password: user.password,
+    const val: User = await User.where({
+      username: json.username,
     }).first();
 
-    // if not found, throw error
-    if (!val) {
+    // Check if user has that password
+    const validPass: Boolean = await checkPassword(
+      json.password,
+      val?.password?.toString() ?? "",
+    );
+
+    if (!val || !validPass) {
       throw { error: "Auth Error" };
+    } else {
+      console.log("valid user");
     }
 
     // return session and token
@@ -58,6 +67,13 @@ export const login_user = async ({ request, response }: RouterContext) => {
     response.body = error;
     response.status = 500;
   }
+};
+
+const checkPassword = async (password: string, hash: string) => {
+  return await bcrypt.compare(
+    password,
+    hash,
+  );
 };
 
 export const validateJWT = async ({ request, response }: RouterContext) => {
@@ -72,7 +88,7 @@ export const validateJWT = async ({ request, response }: RouterContext) => {
       })
       .catch((e) => {
         console.log(e);
-        response.body = e;
+        response.body = { error: e.toString() };
         response.status = 401;
       });
   } catch (error) {
@@ -89,7 +105,7 @@ const generateToken = async (user: User) => {
     { alg: "HS512", typ: "JWT" },
     {
       username: user.username,
-      exp: getNumericDate(60 * 60),
+      exp: getNumericDate(10),
     },
     key,
   );
