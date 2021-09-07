@@ -1,4 +1,4 @@
-import { Router } from "https://deno.land/x/oak/mod.ts";
+import { Router } from "./deps/oak.ts";
 import {
   get_all_users,
   login_user,

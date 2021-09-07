@@ -2,7 +2,7 @@ import {
   Database,
   PostgresConnector,
   SQLite3Connector,
-} from "https://deno.land/x/denodb/mod.ts";
+} from "../deps/denodb.ts";
 
 // Models
 import { User } from "../models/User.ts";

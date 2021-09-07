@@ -1,12 +1,8 @@
 import { User } from "../models/User.ts";
 import { UserType } from "../types.ts";
-import { RouterContext } from "https://deno.land/x/oak/mod.ts";
-import * as bcrypt from "https://deno.land/x/bcrypt/mod.ts";
-import {
-  create,
-  getNumericDate,
-  verify,
-} from "https://deno.land/x/djwt/mod.ts";
+import type { RouterContext } from "../deps/oak.ts";
+import * as bcrypt from "../deps/bcrypt.ts";
+import { create, getNumericDate, verify } from "../deps/djwt.ts";
 
 const key = await crypto.subtle.generateKey(
   { name: "HMAC", hash: "SHA-512" },

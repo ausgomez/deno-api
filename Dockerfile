@@ -1,4 +1,4 @@
-FROM hayd/deno:latest
+FROM hayd/alpine-deno:latest
 
 EXPOSE 8000
 
