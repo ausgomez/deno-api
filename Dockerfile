@@ -11,4 +11,4 @@ RUN deno cache server.ts
 RUN deno cache /deps/*.ts
 
 
-CMD ["run", "--allow-read", "--allow-write", "--allow-env", "--unstable", "--allow-net", "server.ts"]
+CMD ["run", "--no-check flag", "--allow-read", "--allow-write", "--allow-env", "--unstable", "--allow-net", "server.ts"]
