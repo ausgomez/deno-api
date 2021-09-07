@@ -15,7 +15,7 @@ const key = await crypto.subtle.generateKey(
 );
 
 export const get_all_users = (ctx: RouterContext) => {
-  ctx.response.body = "Got all users";
+  ctx.response.body = "Got all users since you have a valid token!";
 };
 
 export const register_user = async ({ request, response }: RouterContext) => {

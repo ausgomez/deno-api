@@ -9,7 +9,7 @@ import {
 const router = new Router();
 
 router
-  .get("/api/v1/users", validateJWT, get_all_users)
+  .get("/api/v1/users", validateJWT, get_all_users) // this is a protected route, you need a valid JWT token
   .post("/api/v1/register", register_user)
   .post("/api/v1/login", login_user);
 
