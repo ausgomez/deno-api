@@ -1,4 +1,4 @@
-FROM hayd/alpine-deno:latest
+FROM hayd/ubuntu-deno:latest
 
 # RUN deno install -qAf --no-check --unstable https://deno.land/x/denon/denon.ts
 
@@ -10,9 +10,12 @@ WORKDIR /app
 
 ADD . /app
 
-RUN deno cache --no-check --unstable /deps/*.ts
+RUN deno cache --no-check --unstable /deps/bcrypt.ts
+RUN deno cache --no-check --unstable /deps/djwt.ts
+RUN deno cache --no-check --unstable /deps/denodb.ts
+RUN deno cache --no-check --unstable /deps/oak.ts
 
-COPY . .
+# COPY . .
 
 RUN deno cache --no-check --unstable server.ts
 
