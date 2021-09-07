@@ -1,6 +1,7 @@
-FROM hayd/alpine-deno:latest
+FROM hayd/ubuntu-deno:latest
 
 EXPOSE 8000
+USER deno
 
 WORKDIR /app
 
