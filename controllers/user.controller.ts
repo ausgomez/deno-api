@@ -14,8 +14,8 @@ const key = await crypto.subtle.generateKey(
   ["sign", "verify"],
 );
 
-export const get_all_users = (ctx: RouterContext) => {
-  ctx.response.body = "Got all users since you have a valid token!";
+export const get_all_users = async (ctx: RouterContext) => {
+  ctx.response.body = await User.select("username").get();
 };
 
 export const register_user = async ({ request, response }: RouterContext) => {
@@ -84,18 +84,28 @@ const checkPassword = async (password: string, hash: string) => {
   );
 };
 
+/**
+ * This will validate a JWT living inside the req.body.jwt
+ * @param  {Number} num1 The first number
+ * @param  {Number} num2 The second number
+ * @return 403 status if jwt is invalid
+ */
 export const validateJWT = async (
   { request, response }: RouterContext,
   next: VoidFunction,
 ) => {
   const body = await request.body().value;
-  const jwt = body.jwt;
+  const jwt = body?.jwt;
 
   try {
+    if (!jwt) {
+      throw { error: "Missing JWT Token 😨" };
+    }
+
     await verify(jwt, key)
       .then(async () => {
-        console.log("valid");
-        await next();
+        console.log("Valid JWT Token! 😎");
+        await next(); // The next() will continue with the excecution
       })
       .catch((e) => {
         console.log(e);
