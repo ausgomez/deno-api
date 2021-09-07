@@ -84,15 +84,18 @@ const checkPassword = async (password: string, hash: string) => {
   );
 };
 
-export const validateJWT = async ({ request, response }: RouterContext) => {
+export const validateJWT = async (
+  { request, response }: RouterContext,
+  next: VoidFunction,
+) => {
   const body = await request.body().value;
   const jwt = body.jwt;
 
   try {
     await verify(jwt, key)
-      .then(() => {
+      .then(async () => {
         console.log("valid");
-        response.body = "valid JWT";
+        await next();
       })
       .catch((e) => {
         console.log(e);
@@ -113,7 +116,7 @@ const generateToken = async (user: User) => {
     { alg: "HS512", typ: "JWT" },
     {
       username: user.username,
-      exp: getNumericDate(10),
+      exp: getNumericDate(3600),
     },
     key,
   );

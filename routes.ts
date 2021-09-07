@@ -9,9 +9,8 @@ import {
 const router = new Router();
 
 router
-  .get("/api/v1/users", get_all_users)
+  .get("/api/v1/users", validateJWT, get_all_users)
   .post("/api/v1/register", register_user)
-  .post("/api/v1/login", login_user)
-  .get("/api/v1/jwt", validateJWT);
+  .post("/api/v1/login", login_user);
 
 export default router;
