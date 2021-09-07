@@ -76,7 +76,7 @@ body:
 }
 ```
 
-### If you put an ivalid JWT token, it will return a `403`
+### If you put an invalid JWT token, it will return a `403`
 
 # Issues
 
