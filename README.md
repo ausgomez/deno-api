@@ -63,17 +63,20 @@ body:
 
 ---
 
-### Validate JWT
+### Protected Routes
+This will ensure that you can access certain routes by putting in the `req.body.jwt` your JWT token
 
-#### `GET /api/v1/jwt`
+#### `GET /api/v1/users`
 
 body:
 
 ```json
 {
-  "jwt": "JWT_TOKEN_TO_CHECK"
+  "jwt": "YOUR_JWT_TOKEN"
 }
 ```
+
+### If you put a valid JWT token, it will return a `403`
 
 # Issues
 
