@@ -85,9 +85,9 @@ body:
 ### Adding more protected routes
 - On the file `./routes.ts` you will find all the routes defined for this prject
 - If you want to add a new route just add it like:
-  - `router.get("/whatever/you/want", controller_name`
+  - `router.get("/whatever/you/want", controller_name`)
 - If you want it protected, just add the middleware in between like:
-  - `router.get("/whatever/you/want", validateJWT, controller_name`
+  - `router.get("/whatever/you/want", validateJWT, controller_name`)
 
 # Issues
 
