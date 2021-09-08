@@ -66,6 +66,7 @@ body:
 ### Protected Routes
 This will ensure that you can access certain routes by putting in the `req.body.jwt` your JWT token
 
+##### Example of a protected route:
 #### `GET /api/v1/users`
 
 body:
