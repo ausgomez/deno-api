@@ -3,7 +3,7 @@
 This repo is just for testing how an API server would look like using
 [Deno](https://deno.land/), [Oak](https://deno.land/x/oak@v9.0.0),
 [DenoDB](https://eveningkid.com/denodb-docs/),
-[JWT](https://github.com/timonson/djwt) tokens for auth, and
+[DJWT](https://github.com/timonson/djwt) tokens for auth, and
 [BCrypt](https://github.com/JamesBroadberry/deno-bcrypt) for hashing.
 
 # What this repo does?
