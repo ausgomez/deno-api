@@ -69,6 +69,9 @@ This will ensure that you can access certain routes by putting in the `req.body.
 ##### Example of a protected route:
 #### `GET /api/v1/users`
 
+
+Try to access this rute wthout a JWT on the body and see what happens, and then try again but now adding a valid JWT on the body like so:
+
 body:
 
 ```json
@@ -78,6 +81,13 @@ body:
 ```
 
 ### If you put an invalid JWT token, it will return a `403`
+
+### Adding more protected routes
+- On the file `./routes.ts` you will find all the routes defined for this prject
+- If you want to add a new route just add it like:
+  - `router.get("/whatever/you/want", controller_name`
+- If you want it protected, just add the middleware in between like:
+  - `router.get("/whatever/you/want", validateJWT, controller_name`
 
 # Issues
 
